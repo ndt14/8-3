@@ -1,17 +1,17 @@
 <template>
   <div>
-    <button v-on:click="newGame" class="control btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
+    <!-- <button v-on:click="newGame" class="control btn-new"><i class="ion-ios-plus-outline"></i>New game</button> -->
     <button v-on:click="RollDice" class="control btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
-    <button v-on:click="hold" class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
+    <!-- <button v-on:click="hold" class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button> -->
 
-    <input
+    <!-- <input
       :disabled="isPlaying"
       :value="finalScore"
       v-on:input="finalScores($event)"
       type="number"
       placeholder="Final score"
       class="final-score"
-    />
+    /> -->
   </div>
 </template>
 
@@ -29,19 +29,19 @@ export default {
     },
   },
   methods: {
-    newGame() {
-      console.log('click');
-      this.$emit('handleNewGame');
-    },
+    // newGame() {
+    //   console.log('click');
+    //   this.$emit('handleNewGame');
+    // },
     RollDice() {
       this.$emit('handleRollDice');
     },
-    hold() {
-      this.$emit('handleHold');
-    },
-    finalScores(event) {
-      this.$emit('handleFinalScore', event);
-    },
+    // hold() {
+    //   this.$emit('handleHold');
+    // },
+    // finalScores(event) {
+    //   this.$emit('handleFinalScore', event);
+    // },
   },
 };
 </script>

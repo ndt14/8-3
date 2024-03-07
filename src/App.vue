@@ -7,14 +7,8 @@
         :activePlayer="activePlayer"
         :currentScore="currentScore"
       />
-      <controls-vue
-        v-on:handleHold="handleHold"
-        v-on:handleRollDice="handleRollDice"
-        v-on:handleNewGame="handleNewGame"
-        v-on:handleFinalScore="handleFinalScore"
-        :finalScore="finalScore"
-        :isPlaying="isPlaying"
-      />
+      <controls-vue v-on:handleRollDice="handleRollDice" />
+      <!-- <audio ref="audio" src=""></audio> -->
       <dices-vue :dices="dices" />
       <popup-rule-vue v-on:handleConfirm="handleConfirm" :isOpenPopup="isOpenPopup" />
     </div>
@@ -34,7 +28,7 @@ export default {
       activePlayer: 0, //ai laf nguoi choi hien tai
       scoresPlayer: [0, 0],
       currentScore: 0,
-      isPlaying: false,
+      isPlaying: true,
       isOpenPopup: false,
       dices: [2, 5],
       finalScore: 10,
@@ -46,74 +40,78 @@ export default {
     DicesVue,
     PopupRuleVue,
   },
-  computed: {
-    isWinner() {
-      let { scoresPlayer, finalScore } = this;
+  // computed: {
+  //   isWinner() {
+  //     let { scoresPlayer, finalScore } = this;
 
-      if (scoresPlayer[0] >= finalScore || scoresPlayer[1] >= finalScore) {
-        // Dung cuoc choi
-        // this.isPlaying = false;
-        return true;
-      }
-      return false;
-    },
-  },
-  watch: {
-    isWinner(newVal) {
-      if (newVal) {
-        this.isPlaying = false; // Move side effect here
-      }
-    },
-  },
+  //     if (scoresPlayer[0] >= finalScore || scoresPlayer[1] >= finalScore) {
+  //       // Dung cuoc choi
+  //       // this.isPlaying = false;
+  //       return true;
+  //     }
+  //     return false;
+  //   },
+  // },
+  // watch: {
+  //   isWinner(newVal) {
+  //     if (newVal) {
+  //       this.isPlaying = false; // Move side effect here
+  //     }
+  //   },
+  // },
   methods: {
-    handleFinalScore(e) {
-      var number = parseInt(e.target.value);
-      if (isNaN(number)) {
-        this.finalScore = '';
-      } else {
-        this.finalScore = number;
-      }
-    },
-    handleHold() {
-      if (this.isPlaying) {
-        let { scoresPlayer, activePlayer, currentScore } = this;
-        let scoreOld = scoresPlayer[activePlayer];
-        let cloneScorePlayer = [...scoresPlayer];
-        cloneScorePlayer[activePlayer] = scoreOld + currentScore;
-        this.scoresPlayer = cloneScorePlayer;
-        if (!this.isWinner) {
-          this.nextPlayer();
-        }
-      } else {
-        alert('vui lòng nhấn newgame để bắt đầu  trò chơi');
-      }
-    },
-    nextPlayer() {
-      this.activePlayer = this.activePlayer === 0 ? 1 : 0;
-      this.currentScore = 0;
-    },
+    // handleFinalScore(e) {
+    //   var number = parseInt(e.target.value);
+    //   if (isNaN(number)) {
+    //     this.finalScore = '';
+    //   } else {
+    //     this.finalScore = number;
+    //   }
+    // },
+    // handleHold() {
+    //   if (this.isPlaying) {
+    //     let { scoresPlayer, activePlayer, currentScore } = this;
+    //     let scoreOld = scoresPlayer[activePlayer];
+    //     let cloneScorePlayer = [...scoresPlayer];
+    //     cloneScorePlayer[activePlayer] = scoreOld + currentScore;
+    //     this.scoresPlayer = cloneScorePlayer;
+    //     if (!this.isWinner) {
+    //       this.nextPlayer();
+    //     }
+    //   } else {
+    //     alert('vui lòng nhấn newgame để bắt đầu  trò chơi');
+    //   }
+    // },
+    // nextPlayer() {
+    //   this.activePlayer = this.activePlayer === 0 ? 1 : 0;
+    //   this.currentScore = 0;
+    // },
     handleRollDice() {
       if (this.isPlaying) {
         var dice1 = Math.floor(Math.random() * 6) + 1;
         var dice2 = Math.floor(Math.random() * 6) + 1;
         this.dices = [dice1, dice2];
-        if (dice1 === 1 || dice2 === 1) {
-          var activePlayer = this.activePlayer;
-          setTimeout(() => {
-            alert(`Nguời chơi ${activePlayer + 1} đã quay trúng số 1 , Rất tiếc`);
-          }, 10);
-          this.nextPlayer();
-        } else {
-          this.currentScore = this.currentScore + dice1 + dice2;
-        }
-      } else {
-        alert('vui lòng nhấn newgame để bắt đầu  trò chơi');
+        this.isOpenPopup = true;
+        // const audio = this.$refs.audio;
+        // // Phát âm thanh
+        // audio.play();
+        // if (dice1 === 1 || dice2 === 1) {
+        //   var activePlayer = this.activePlayer;
+        //   setTimeout(() => {
+        //     alert(`Nguời chơi ${activePlayer + 1} đã quay trúng số 1 , Rất tiếc`);
+        //   }, 10);
+        //   // this.nextPlayer();
+        // } else {
+        //   this.currentScore = this.currentScore + dice1 + dice2;
+        // }
+        // } else {
+        //   alert('vui lòng nhấn newgame để bắt đầu  trò chơi');
       }
     },
-    handleNewGame() {
-      // console.log('tuwf thafng cha');
-      this.isOpenPopup = true;
-    },
+    // handleNewGame() {
+    //   // console.log('tuwf thafng cha');
+    //   this.isOpenPopup = true;
+    // },
     handleConfirm() {
       // console.log('hihi');
       this.activePlayer = 0;
